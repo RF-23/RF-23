@@ -1,0 +1,220 @@
+
+<!DOCTYPE html>
+<html lang="zh-Hans" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>进制转换问题详解 - RedForest的博客小站</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="RedForest,"> 
+    <meta name="description" content="欢迎来到我的博客，这里包括网站，算法，游戏，数字媒体，政治等内容，欢迎进来喝茶 ^_^,点击左上关闭音乐&amp;ensp;
+ATTAINTION: 由于HEXO目前对于MathJax的支持不甚完善，所以本篇数学公示渲染有误请前往我的LUOGU博客以获最佳体验
+关于进制转换的问题最详细解释&amp;e,"> 
+    <meta name="author" content="RedForest"> 
+    <link rel="alternative" href="atom.xml" title="RedForest的博客小站" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8691406134231910",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async custom-element="amp-auto-ads"
+        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    </script>
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">RedForest的博客小站</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="iconfont icon-home image-icon" href="javascript:;" data-url="http://example.com"></a>
+    <div title="播放/暂停" class="iconfont icon-play"></div>
+    <h3 class="subtitle">进制转换问题详解</h3>
+    <div class="social">
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="iconfont icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">进制转换问题详解</h1>
+        <div class="stuff">
+            <span>七月 16, 2019</span>
+            
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <p>点击左上关闭音乐&ensp;</p>
+<p>ATTAINTION: 由于HEXO目前对于MathJax的支持不甚完善，所以本篇数学公示渲染有误请前往<a target="_blank" rel="noopener" href="https://www.luogu.com.cn/blog/RF-YZZS/jin-zhi-zhuai-huan">我的LUOGU博客</a>以获最佳体验</p>
+<h2 id="关于进制转换的问题最详细解释"><a href="#关于进制转换的问题最详细解释" class="headerlink" title="关于进制转换的问题最详细解释"></a>关于进制转换的问题最详细解释</h2><p>&ensp;&ensp;&ensp;&ensp;<strong>很久前曾经系统学习过进制转换的问题，但发现…忘了？！好吧所以就再重新学习下然后写篇博客吧。<del>这次可不要再不求甚解了。</del></strong><br>&ensp;&ensp;&ensp;&ensp;那么就开始吧，先说下最基础的，如何把十进制数 <strong>a</strong> 转化为任意正 <strong>r</strong> 进制数。<br>&ensp;&ensp;&ensp;&ensp;在十进制下 $\forall$ n $\in$ Z，都可以将它表示为$A_1$<em>$10^{n-1}$+$A_2$</em>$10^{n-2}$+…+$A_n$<em>$10^{0}$,其中$A_i$ $\in$ Z $^</em>$,其中的$A_i$就是这个整数每一位的值。很显然的可以对它进行推广，$\forall$ r $\in$ R 都有以上结论成立。很显然我们要做的就是获得在 r 进制下的$A_i$的值。获得方法也很简单。那就是将这个整数对 r 不停地取模，然后将它除以 r 向下取整。稍微考虑下就可以发现它的原理(如果是特殊情况的话需要稍加更改，比如负进制)。<br>&ensp;&ensp;&ensp;&ensp;下面举个简单的例子，将十进制下的 6 转换为二进制。按照刚才的步骤，将其对 2 取模，发现是零，这里的意义其实就是， 6 在二进制下的最后一位是 0 ，因为它 % 2 为零，就说明它不需要 $2^0$ 这个数所以这一位为0，就是我们上面所讲$A_1$=0。的这是很显然的。然后让 6 / 2 得到 3 这就相当于对于 6 的二进制数忽略掉最后一位重复刚才的过程。因为100（base2）相当于10<em>2（base2）对吧。那么再让 $3%2$ ,得到 1 ，刚才讲到，这里的 1 默认是乘以二的所以就说明 6 需要 $2^{0+1}$ 就是$2^1$，那么1就是前面我们所讲到的$A_{2}$。我们一直重复刚才的过程就可以得到 6 的二进制表示：110；<br>&ensp;&ensp;&ensp;&ensp;即为1</em>$2^{2}$+1*$2^{1}$+0*$2^{0}$很简单吧^_^</p>
+<p>下面贴一段代码：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stack&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="built_in">stack</span> &lt;<span class="keyword">int</span>&gt; s;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> n,r;</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">&quot;%d%d&quot;</span>,&amp;n,&amp;r);   <span class="comment">//十进制数 n 再 r 进制下 </span></span><br><span class="line">	<span class="keyword">int</span> t;</span><br><span class="line">	<span class="keyword">while</span>(n)&#123;</span><br><span class="line">		t=n%r;</span><br><span class="line">		s.push(t);     <span class="comment">//因为我们是从后向前计算的,所以就用个栈存下</span></span><br><span class="line">		n/=r;              <span class="comment">//c++向零取整</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">while</span>(!s.empty())&#123;</span><br><span class="line">		<span class="built_in">cout</span>&lt;&lt;s.top();</span><br><span class="line">		s.pop();</span><br><span class="line">	&#125; </span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="输入：6-2"><a href="#输入：6-2" class="headerlink" title="输入：6 2"></a>输入：6 2</h4><h4 id="输出：110"><a href="#输出：110" class="headerlink" title="输出：110"></a>输出：110</h4>
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        
+                            <li title='0' data-url='http://music.163.com/song/media/outer/url?id=22766039.mp3'></li>
+                        
+                    
+                        
+                            <li title='1' data-url='http://music.163.com/song/media/outer/url?id=766038.mp3'></li>
+                        
+                    
+                        
+                            <li title='2' data-url='http://music.163.com/song/media/outer/url?id=26085472.mp3'></li>
+                        
+                    
+                        
+                            <li title='3' data-url='http://music.163.com/song/media/outer/url?id=494858498.mp3'></li>
+                        
+                    
+                        
+                            <li title='4' data-url='http://music.163.com/song/media/outer/url?id=35447831.mp3'></li>
+                        
+                    
+                        
+                            <li title='5' data-url='http://music.163.com/song/media/outer/url?id=443292559.mp3'></li>
+                        
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+		data-enable='false'
+        data-ae='false'
+        data-ci=''
+        data-cs=''
+        data-r=''
+        data-o=''
+        data-a=''
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+        <div class='side'>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E%E8%BF%9B%E5%88%B6%E8%BD%AC%E6%8D%A2%E7%9A%84%E9%97%AE%E9%A2%98%E6%9C%80%E8%AF%A6%E7%BB%86%E8%A7%A3%E9%87%8A"><span class="toc-number">1.</span> <span class="toc-text">关于进制转换的问题最详细解释</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%EF%BC%9A6-2"><span class="toc-number">1.0.1.</span> <span class="toc-text">输入：6 2</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BE%93%E5%87%BA%EF%BC%9A110"><span class="toc-number">1.0.2.</span> <span class="toc-text">输出：110</span></a></li></ol></li></ol></li></ol>	
+        </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/typed.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"], linebreaks: { automatic:true }, EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) },
+        tex2jax: { inlineMath: [ ["$", "$"], ["\\(","\\)"] ], processEscapes: true, ignoreClass: "tex2jax_ignore|dno",skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']},
+        TeX: {  noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, Macros: { href: "{}" } },
+        messageStyle: "none"
+    });
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+
+</html>

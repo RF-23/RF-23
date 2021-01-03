@@ -1,0 +1,227 @@
+
+<!DOCTYPE html>
+<html lang="zh-Hans" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>题解【射击】— 枚举，不只是暴力！ - RedForest的博客小站</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="RedForest,"> 
+    <meta name="description" content="欢迎来到我的博客，这里包括网站，算法，游戏，数字媒体，政治等内容，欢迎进来喝茶 ^_^,点击左上关闭音乐&amp;ensp;
+前言：&amp;ensp;&amp;ensp;&amp;ensp;&amp;ensp;CSP2019的前一天，早起到了学校。今天是高三二诊的第一天，恰好CSP和二诊冲掉了，不得已请了假。本来高三是不打,"> 
+    <meta name="author" content="RedForest"> 
+    <link rel="alternative" href="atom.xml" title="RedForest的博客小站" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8691406134231910",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async custom-element="amp-auto-ads"
+        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    </script>
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">RedForest的博客小站</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="iconfont icon-home image-icon" href="javascript:;" data-url="http://example.com"></a>
+    <div title="播放/暂停" class="iconfont icon-play"></div>
+    <h3 class="subtitle">题解【射击】— 枚举，不只是暴力！</h3>
+    <div class="social">
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="iconfont icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">题解【射击】— 枚举，不只是暴力！</h1>
+        <div class="stuff">
+            <span>一月 31, 2020</span>
+            
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <p>点击左上关闭音乐&ensp;</p>
+<h2 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h2><p>&ensp;&ensp;&ensp;&ensp;CSP2019的前一天，早起到了学校。今天是高三二诊的第一天，恰好CSP和二诊冲掉了，不得已请了假。本来高三是不打算停课的，借此机会重温了一下子机房停课的快乐生活。停一天也是停嘛。<br>&ensp;&ensp;&ensp;&ensp;到了学校发现教练还没到，可能是我太久没有机房停课的生活，忘记了机房的生物钟了。一群人在实验楼连廊里等教练。等到大约八点半教练终于来上班了。（中间还被级部主任误以为是逃考试的学生……<br>&ensp;&ensp;&ensp;&ensp;看完了教练发的一套题，感觉挺简单的，做完了还没到中午放学，扭头看旁边同学在干什么，发现我的两个同学(均为高三)在研究一道题。<del>(主角出场</del></p>
+<h2 id="题目大意"><a href="#题目大意" class="headerlink" title="题目大意"></a>题目大意</h2><h3 id="ATTATION"><a href="#ATTATION" class="headerlink" title="ATTATION:"></a>ATTATION:</h3><p>题目过于久远，已经不记得具体是什么了。题目在NOIOJ上面，现在这个网站挂掉了所以题面是我根据之前的代码以及依稀的印象反向编的。<br><del>（似乎什么时候听说NOIP会从题库里出原题来着？那我就盲猜一把射击这个题 2020.1.31</del> …好了，事实证明NOIP取消了，CSP：我和NOIP没有（you）关系</p>
+<h3 id="题面："><a href="#题面：" class="headerlink" title="题面："></a>题面：</h3><p>一共有N种物品（N&lt;=5e3），你有放回的取4次，每一次可以不取，也可以取 i ，每个物品有权值ai，求四次取到的和比m小的最大值是多少 (0&lt;m&lt;Max_long long,0&lt;ai&lt;MAX_int)</p>
+<h3 id="注："><a href="#注：" class="headerlink" title="注："></a>注：</h3><p>因为m的值非常大，所以没办法背包。</p>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><p>首先，这道题是绝世好题。<br>我记得之前做题的时候见到一道题 <a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P3396">P3396 哈希冲突</a> 题解里说这道题是一篇省选论文里的，论文说：根号算法，不只是分块。(这也是一道绝世好题)</p>
+<p>那么我也要说，今天的这道题 <strong>射击</strong> 是：枚举算法，不只是暴力。<br>这道题第一眼看来没什么思路，首先写搜索，大力剪枝之后最多只能拿到40分<br>搜索的复杂度是O(n^4)，妥妥的TLE那怎么办呢？<br>先上代码：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">long</span> <span class="keyword">long</span> a[<span class="number">1e6</span>+<span class="number">7</span>],ans;</span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> _TP&gt;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">read</span><span class="params">(_TP &amp;X)</span></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> ch;<span class="keyword">int</span> w;X=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(!<span class="built_in">isdigit</span>(ch))&#123;w=ch==<span class="string">&#x27;-&#x27;</span>;ch=getchar();&#125;</span><br><span class="line">    <span class="keyword">while</span>(<span class="built_in">isdigit</span>(ch))&#123;X=(X&lt;&lt;<span class="number">1</span>)+(X&lt;&lt;<span class="number">3</span>)+(ch^<span class="number">48</span>);ch=getchar();&#125;</span><br><span class="line">    X=w?-X:X;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> n,m;</span><br><span class="line">    read(n);read(m);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        read(a[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> k=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=<span class="number">1</span>;j++)&#123;</span><br><span class="line">            ++k;</span><br><span class="line">            a[n+k]=a[i]+a[j];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    sort(a+<span class="number">1</span>,a+n+k+<span class="number">1</span>);</span><br><span class="line">    i=<span class="number">1</span>,j=n+k;</span><br><span class="line">    <span class="keyword">while</span>(i&lt;=j)&#123;</span><br><span class="line">        <span class="keyword">if</span>(a[i]+a[j]&lt;=m)&#123;</span><br><span class="line">            <span class="keyword">if</span>(a[i]+a[j]&gt;ans)ans=a[i]+a[j];</span><br><span class="line">            ++i;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> --j;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;ans;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这就是完整的代码了，什么意思呢？<br>考虑这样一个问题，我们可以把过程看成两个取两次而不是一个取四次<br>这里实际上使用了分别枚举的技巧，也就是说，先对前两次进行O(n^2)的枚举<br>，记录状态，然后再对后两次取进行O(n^2)的枚举，记录状态。但实际上这两次枚举的结果是一模一样的，所以枚举一次就好了。<br>最后再对于前两次的结果进行一次O(n^2)的枚举。答案就有了。<br>这样看起来整体的复杂度是O(n^2)的，但是，最后一次枚举的时候实际上状态数量是O(n^2)的.其实最后一次的枚举复杂度是O（n^4）的。所以说其实复杂度并没有优化。<br><strong>枚举的代码是这样的：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=<span class="number">1</span>;j++)&#123;</span><br><span class="line">        ++k;</span><br><span class="line">        a[n+k]=a[i]+a[j];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><strong>但是！</strong><br>进行了前两次枚举就可以用一种类似贪心的方法进行处理了，也就是</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">sort(a+<span class="number">1</span>,a+n+k+<span class="number">1</span>);</span><br><span class="line">    i=<span class="number">1</span>,j=n+k;</span><br><span class="line">    <span class="keyword">while</span>(i&lt;=j)&#123;</span><br><span class="line">        <span class="keyword">if</span>(a[i]+a[j]&lt;=m)&#123;</span><br><span class="line">            <span class="keyword">if</span>(a[i]+a[j]&gt;ans)ans=a[i]+a[j];</span><br><span class="line">            ++i;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> --j;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>这样，最后一次的贪心是O(n^2)的。  </p>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        
+                            <li title='0' data-url='http://music.163.com/song/media/outer/url?id=22766039.mp3'></li>
+                        
+                    
+                        
+                            <li title='1' data-url='http://music.163.com/song/media/outer/url?id=766038.mp3'></li>
+                        
+                    
+                        
+                            <li title='2' data-url='http://music.163.com/song/media/outer/url?id=26085472.mp3'></li>
+                        
+                    
+                        
+                            <li title='3' data-url='http://music.163.com/song/media/outer/url?id=494858498.mp3'></li>
+                        
+                    
+                        
+                            <li title='4' data-url='http://music.163.com/song/media/outer/url?id=35447831.mp3'></li>
+                        
+                    
+                        
+                            <li title='5' data-url='http://music.163.com/song/media/outer/url?id=443292559.mp3'></li>
+                        
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+		data-enable='false'
+        data-ae='false'
+        data-ci=''
+        data-cs=''
+        data-r=''
+        data-o=''
+        data-a=''
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+        <div class='side'>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80%EF%BC%9A"><span class="toc-number">1.</span> <span class="toc-text">前言：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E5%A4%A7%E6%84%8F"><span class="toc-number">2.</span> <span class="toc-text">题目大意</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ATTATION"><span class="toc-number">2.1.</span> <span class="toc-text">ATTATION:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%98%E9%9D%A2%EF%BC%9A"><span class="toc-number">2.2.</span> <span class="toc-text">题面：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%EF%BC%9A"><span class="toc-number">2.3.</span> <span class="toc-text">注：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E8%A7%A3"><span class="toc-number">3.</span> <span class="toc-text">题解</span></a></li></ol>	
+        </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/typed.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"], linebreaks: { automatic:true }, EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) },
+        tex2jax: { inlineMath: [ ["$", "$"], ["\\(","\\)"] ], processEscapes: true, ignoreClass: "tex2jax_ignore|dno",skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']},
+        TeX: {  noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, Macros: { href: "{}" } },
+        messageStyle: "none"
+    });
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+
+</html>

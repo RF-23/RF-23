@@ -1,0 +1,254 @@
+
+<!DOCTYPE html>
+<html lang="zh-Hans" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>OI常数优化技巧 - RedForest的博客小站</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="RedForest,"> 
+    <meta name="description" content="欢迎来到我的博客，这里包括网站，算法，游戏，数字媒体，政治等内容，欢迎进来喝茶 ^_^,点击左上关闭音乐&amp;ensp;
+常数优化前言在oi中，常数优化可谓极其重要当然，不只是oi，常数优化一定程度上组成了代码风格所以说，如何进行常数优化呢？下面就简单的介绍我常用的几个常数优化技巧
+#1习,"> 
+    <meta name="author" content="RedForest"> 
+    <link rel="alternative" href="atom.xml" title="RedForest的博客小站" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8691406134231910",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async custom-element="amp-auto-ads"
+        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    </script>
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">RedForest的博客小站</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="iconfont icon-home image-icon" href="javascript:;" data-url="http://example.com"></a>
+    <div title="播放/暂停" class="iconfont icon-play"></div>
+    <h3 class="subtitle">OI常数优化技巧</h3>
+    <div class="social">
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="iconfont icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">OI常数优化技巧</h1>
+        <div class="stuff">
+            <span>十月 02, 2019</span>
+            
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <p>点击左上关闭音乐&ensp;</p>
+<h2 id="常数优化"><a href="#常数优化" class="headerlink" title="常数优化"></a>常数优化</h2><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>在oi中，常数优化可谓极其重要<br>当然，不只是oi，常数优化一定程度上组成了代码风格<br>所以说，如何进行常数优化呢？<br>下面就简单的介绍我常用的几个常数优化技巧</p>
+<h3 id="1习惯使用-const-…"><a href="#1习惯使用-const-…" class="headerlink" title="#1习惯使用 const …"></a>#1习惯使用 const …</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> inf=<span class="number">0x7fffffff</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">exgcd</span><span class="params">(<span class="keyword">int</span> a,<span class="keyword">int</span> b,<span class="keyword">int</span> &amp;d,<span class="keyword">int</span> &amp;x,<span class="keyword">int</span> &amp;y)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!b)&#123;d=a;x=<span class="number">1</span>;y=<span class="number">0</span>;<span class="keyword">return</span>;&#125;</span><br><span class="line">    exgcd(b,a%b,d,y,x);y-=x*(a/b);</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+<p>const的最大作用就是减少参数传递的时间。</p>
+<h3 id="2-不要递归！！"><a href="#2-不要递归！！" class="headerlink" title="#2 不要递归！！"></a>#2 不要递归！！</h3><p>用基础算法算法gcd来举例：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">gcd</span> <span class="params">(<span class="keyword">const</span> <span class="keyword">int</span> a,<span class="keyword">const</span> <span class="keyword">int</span> b)</span></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(b)<span class="keyword">return</span> a;</span><br><span class="line">    		<span class="keyword">else</span> <span class="keyword">return</span>  gcd(b,a%b); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>相信很多人习惯于这种写法<br>但是又一个很严重的问题：在每次递归调用函数的时候,程序都会在栈中新建空间来存放递归函数里的变量，这无疑造成了极大的性能损失，不同于前一个，减少递归而使用迭代能够造成可观的优化。<br>所以说：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">gcd</span><span class="params">(<span class="keyword">int</span> a,<span class="keyword">int</span> b)</span></span>&#123;</span><br><span class="line">    <span class="keyword">while</span>(b)&#123;</span><br><span class="line">        <span class="keyword">int</span> t=a;</span><br><span class="line">        a=b;</span><br><span class="line">        b=t%b;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> a;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3习惯于将变量声明在循环外"><a href="#3习惯于将变量声明在循环外" class="headerlink" title="#3习惯于将变量声明在循环外"></a>#3习惯于将变量声明在循环外</h3><p>定义变量意味着系统在内存条里找出一块地方让你存数据，想想cpu到内存条之间长长的距离 <del>还有你那不怎么好的主板</del> 特别是在使用AMD处理器（非Zen构架）的情况下<br>所以说对于上面 #2 的程序而言</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">gcd</span><span class="params">(<span class="keyword">int</span> a,<span class="keyword">int</span> b)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> t;</span><br><span class="line">    <span class="keyword">while</span>(b)&#123;</span><br><span class="line">        t=a;</span><br><span class="line">        a=b;</span><br><span class="line">        b=t%b;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> a;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样或许才是更优美的写法</p>
+<h3 id="4-使用-inline"><a href="#4-使用-inline" class="headerlink" title="#4 使用 inline"></a>#4 使用 inline</h3><p>inline可以让你的非递归函数（此函数里不再调用其他函数）编译在原函数中而非另外开栈内存<br>所以对于 #3 的程序我们可以稍加修改</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"> <span class="function"><span class="keyword">int</span> <span class="title">gcd</span><span class="params">(<span class="keyword">int</span> a,<span class="keyword">int</span> b)</span></span>&#123;</span><br><span class="line">     <span class="keyword">int</span> t;</span><br><span class="line">     <span class="keyword">while</span>(b)&#123;</span><br><span class="line">         t=a;</span><br><span class="line">         a=b;</span><br><span class="line">         b=t%b;</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">return</span> a;</span><br><span class="line"> &#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="built_in">cout</span>&lt;&lt;gcd(<span class="number">4</span>,<span class="number">8</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>比如在main()中调用<br>这段代码就相当于</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> a=<span class="number">4</span>,b=<span class="number">8</span>;</span><br><span class="line">	<span class="keyword">int</span> t;</span><br><span class="line">	<span class="keyword">while</span>(b)&#123;</span><br><span class="line">		<span class="keyword">int</span> t=a;</span><br><span class="line">		a=b;</span><br><span class="line">		b=t%b;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">cout</span>&lt;&lt;a;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="5-register"><a href="#5-register" class="headerlink" title="#5 register"></a>#5 register</h3><p>前文中说到，每当你定义一个变量或函数，抑或修改变量维护数据，程序都会不远万里的请内存条帮你完成这项工作，而物理上cpu到内存插槽之间的距离一定程度也影响车cpu和内存交互的速度。<br>能不能缩短这个距离呢？答案是肯定的。<br>别忘了我们的cpu里近1/2的面积都是缓存啊<br>直接把变量开在L3缓存里不就不用不远万里找内存条了嘛<br>所以：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">register</span> <span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=MAXN;)&#123;</span><br><span class="line">	i++;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>要比</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=MAXN;)&#123;</span><br><span class="line">	i++;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>快了将近十倍（亲测）</p>
+<h4 id="但有两点点要注意"><a href="#但有两点点要注意" class="headerlink" title="但有两点点要注意"></a>但有两点点要注意</h4><p>其一：众所周知，CPU L3缓存很快，但也很小所以最多能够有让你开几个变量的空间，所以不要随意挥霍register<br>其二：如果你是在<a target="_blank" rel="noopener" href="https://www.luogu.org/problem/P3370">LUOGU</a>这样的online judge网站上测试程序，那么我十分不建议使用register。<br>具体原因尚不清楚，但我猜测大概是由于服务器L3缓存使用频繁，很可能已经占满了，这个时候cpu可能又回去找内存条，耽误时间。</p>
+<h3 id="6-正确使用STL库函数"><a href="#6-正确使用STL库函数" class="headerlink" title="#6 正确使用STL库函数"></a>#6 正确使用STL库函数</h3><p>STL慢是众所周知的事情，原因是STL中有大量的防止出错的检查项，拉低了速度<br>但即便如此STL函数的算法也是极其优秀的<br>例如你要求log2(5)。<br>一种方法是自己写二分法，复杂度是o(log(p)),p为精确位数，而STL中的log函数使用牛顿迭代，时间复杂度几乎是o(1)如果是这样不如选用STL。<br>然而，诸如 vector 一类的容器常数就非常的大，甚至于到了影响成绩的程度，尽量不要使用。<br>但是如果使用不当,就很容易对程序的性能造成负面影响</p>
+<h3 id="7-访问连续内存（链表-NO！）"><a href="#7-访问连续内存（链表-NO！）" class="headerlink" title="#7 访问连续内存（链表 NO！）"></a>#7 访问连续内存（链表 NO！）</h3><p>与其说这是个技巧不如说这是个思想<br>在图论当中，人们常常使用 链式前向星 或 邻接表 或 vector 来存储图<br>在这三者中，理论上vector的时间复杂度最低（只是理论上），因为观察使用方法不难发现前两者是链表结构，而vector是数组。<br>在内存当中，如果我们想要查询一个变量，就要进行寻址，而连续的内存可以大大降低寻址的时间复杂度（比如数组只需要寻址一次，查到数组第一个元素位置就能访问这个数组），而链表结构则需要反复寻址，效率低下。</p>
+<h3 id="8-三目运算符"><a href="#8-三目运算符" class="headerlink" title="#8 三目运算符"></a>#8 三目运算符</h3><p>很不起眼的一个小东西，刚开始的时候我以为仅仅是用来简化代码的，后来发现它能带来巨量的性能增幅<br>例如在做 并查集 的时候需要的 find函数</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">find</span><span class="params">(<span class="keyword">const</span> <span class="keyword">int</span> x)</span></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(x==fa[x])<span class="keyword">return</span> x;   </span><br><span class="line">    	<span class="keyword">else</span> <span class="keyword">return</span> fa[x]=find(fa[x]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这一份代码已经十分优秀，但是：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">find</span><span class="params">(<span class="keyword">const</span> <span class="keyword">int</span> x)</span></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> x==fa[x]?x:fa[x]=find(fa[x]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这一份代码在比较普遍的 1e5 规模的数据下能够带来100ms左右的性能提升。</p>
+<h3 id="9-使用指针"><a href="#9-使用指针" class="headerlink" title="#9 使用指针"></a>#9 使用指针</h3><p>这应该算是一个常识<br>之前看到有人写代码的时候这个样子</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">A</span><span class="params">(<span class="keyword">int</span> a[])</span></span>&#123;</span><br><span class="line">     ......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>直接将数组作为参数传递给了函数<br>这是一个相当愚蠢的行为，就好比，别人向你借书，然后你把书抄了一份给他。<br>显然应当直接把书借给他。<br>所以只需要告诉函数该数组的位置就好了，其实就是把第一个元素的位置告诉函数（因为数组使用的是连续内存嘛）</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">A</span><span class="params">(<span class="keyword">int</span> *a)</span></span>&#123;  </span><br><span class="line">       <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;  </span><br><span class="line">           ......	</span><br><span class="line">       &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="10-读入优化-amp-输出优化"><a href="#10-读入优化-amp-输出优化" class="headerlink" title="#10 读入优化&amp;输出优化"></a>#10 读入优化&amp;输出优化</h3><p>很显然，任何一个题都需要输入输出，数据量大的话，至少要花费O(n)时间来读入（输出）数据。<br>其实读入（输出）优化的核心就是使用getchar();(putchar();)。因为这两种方法是最快的读入（输出）函数。</p>
+<h4 id="代码："><a href="#代码：" class="headerlink" title="代码："></a>代码：</h4><p>快读：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> _TP&gt;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">read</span><span class="params">(_TP &amp;X)</span></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> ch;<span class="keyword">int</span> w;X=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(!<span class="built_in">isdigit</span>(ch))&#123;w=ch==<span class="string">&#x27;-&#x27;</span>;ch=getchar();&#125;</span><br><span class="line">    <span class="keyword">while</span>(<span class="built_in">isdigit</span>(ch))&#123;X=(X&lt;&lt;<span class="number">1</span>)+(X&lt;&lt;<span class="number">3</span>)+(ch^<span class="number">48</span>);ch=getchar();&#125;</span><br><span class="line">    X=w?-X:X;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出同理，因为不常用，就不附代码了。</p>
+<h3 id="11-位运算-amp-状态压缩"><a href="#11-位运算-amp-状态压缩" class="headerlink" title="#11 位运算 &amp; 状态压缩"></a>#11 位运算 &amp; 状态压缩</h3><p>此二者内容颇多，便不细讲，附实例<br>位运算优化：<a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P3372">【模板】线段树 1</a></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt; </span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> inf=<span class="number">1e5</span>+<span class="number">7</span>;</span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> _TP&gt;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">read</span><span class="params">(_TP &amp;X)</span></span>&#123;</span><br><span class="line">	<span class="keyword">char</span> ch;<span class="keyword">int</span> w;X=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">while</span>(!<span class="built_in">isdigit</span>(ch))&#123;w=ch==<span class="string">&#x27;-&#x27;</span>;ch=getchar();&#125;</span><br><span class="line">	<span class="keyword">while</span>(<span class="built_in">isdigit</span>(ch))&#123;X=(X&lt;&lt;<span class="number">1</span>)+(X&lt;&lt;<span class="number">3</span>)+(ch^<span class="number">48</span>);ch=getchar();&#125;</span><br><span class="line">	X=w?-X:X;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">node</span>&#123;</span></span><br><span class="line">	<span class="keyword">int</span> l,r;</span><br><span class="line">	<span class="keyword">long</span> <span class="keyword">long</span> sum,lag;</span><br><span class="line">&#125;t[inf&lt;&lt;<span class="number">2</span>]; </span><br><span class="line"><span class="keyword">int</span> a[inf];</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">push_down</span><span class="params">(<span class="keyword">const</span> <span class="keyword">int</span> k)</span></span>&#123;</span><br><span class="line">	t[k&lt;&lt;<span class="number">1</span>].lag+=t[k].lag;</span><br><span class="line">	t[k&lt;&lt;<span class="number">1</span>|<span class="number">1</span>].lag+=t[k].lag;</span><br><span class="line">	t[k&lt;&lt;<span class="number">1</span>].sum+=t[k].lag*(t[k&lt;&lt;<span class="number">1</span>].r-t[k&lt;&lt;<span class="number">1</span>].l+<span class="number">1</span>);</span><br><span class="line">	t[k&lt;&lt;<span class="number">1</span>|<span class="number">1</span>].sum+=t[k].lag*(t[k&lt;&lt;<span class="number">1</span>|<span class="number">1</span>].r-t[k&lt;&lt;<span class="number">1</span>|<span class="number">1</span>].l+<span class="number">1</span>);</span><br><span class="line">	t[k].lag=<span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">build</span><span class="params">(<span class="keyword">const</span> <span class="keyword">int</span> k,<span class="keyword">const</span> <span class="keyword">int</span> l,<span class="keyword">const</span> <span class="keyword">int</span> r)</span></span>&#123;</span><br><span class="line">	t[k].l=l;</span><br><span class="line">	t[k].r=r;</span><br><span class="line">	<span class="keyword">if</span>(l==r)&#123;</span><br><span class="line">		t[k].sum=a[l];</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125; </span><br><span class="line">	<span class="keyword">int</span> m=(l+r)&gt;&gt;<span class="number">1</span>;</span><br><span class="line">	build(k&lt;&lt;<span class="number">1</span>,l,m);</span><br><span class="line">	build(k&lt;&lt;<span class="number">1</span>|<span class="number">1</span>,m+<span class="number">1</span>,r);</span><br><span class="line">	t[k].sum=t[k&lt;&lt;<span class="number">1</span>].sum+t[k&lt;&lt;<span class="number">1</span>|<span class="number">1</span>].sum;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">change</span><span class="params">(<span class="keyword">const</span> <span class="keyword">int</span> k,<span class="keyword">const</span> <span class="keyword">int</span> l,<span class="keyword">const</span> <span class="keyword">int</span> r,<span class="keyword">const</span> <span class="keyword">int</span> x)</span></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(t[k].l&gt;=l &amp;&amp; t[k].r&lt;=r)&#123;</span><br><span class="line">		t[k].lag+=x;</span><br><span class="line">		t[k].sum+=x*(t[k].r-t[k].l+<span class="number">1</span>);</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>(t[k].lag)push_down(k);</span><br><span class="line">	<span class="keyword">int</span> m=(t[k].l+t[k].r)&gt;&gt;<span class="number">1</span>;</span><br><span class="line">	<span class="keyword">if</span>(l&lt;=m)change(k&lt;&lt;<span class="number">1</span>,l,r,x);</span><br><span class="line">	<span class="keyword">if</span>(r&gt;m)change(k&lt;&lt;<span class="number">1</span>|<span class="number">1</span>,l,r,x);</span><br><span class="line">	t[k].sum=t[k&lt;&lt;<span class="number">1</span>].sum+t[k&lt;&lt;<span class="number">1</span>|<span class="number">1</span>].sum;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">long</span> <span class="keyword">long</span> ans;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">sum</span><span class="params">(<span class="keyword">const</span> <span class="keyword">int</span> k,<span class="keyword">const</span> <span class="keyword">int</span> l,<span class="keyword">const</span> <span class="keyword">int</span> r)</span></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(t[k].l&gt;=l &amp;&amp; t[k].r&lt;=r)&#123;</span><br><span class="line">		ans+=t[k].sum;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>(t[k].lag)push_down(k);</span><br><span class="line">	<span class="keyword">int</span> m=(t[k].r+t[k].l)&gt;&gt;<span class="number">1</span>;</span><br><span class="line">	<span class="keyword">if</span>(l&lt;=m)sum(k&lt;&lt;<span class="number">1</span>,l,r);</span><br><span class="line">	<span class="keyword">if</span>(r&gt;m)sum(k&lt;&lt;<span class="number">1</span>|<span class="number">1</span>,l,r);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">long</span> <span class="keyword">long</span> n,x,l,r,q;</span><br><span class="line">	<span class="keyword">int</span> opt;</span><br><span class="line">	read(n);read(q);</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">		read(a[i]);</span><br><span class="line">	&#125;</span><br><span class="line">	build(<span class="number">1</span>,<span class="number">1</span>,n);</span><br><span class="line">	<span class="keyword">while</span>(q--)&#123;</span><br><span class="line">		read(opt);</span><br><span class="line">		<span class="keyword">switch</span>(opt)&#123;</span><br><span class="line">			<span class="keyword">case</span> <span class="number">1</span>:&#123;</span><br><span class="line">				read(l);read(r);read(x);</span><br><span class="line">				change(<span class="number">1</span>,l,r,x);</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">case</span> <span class="number">2</span>:&#123;</span><br><span class="line">				read(l);read(r);</span><br><span class="line">				ans=<span class="number">0</span>;</span><br><span class="line">				sum(<span class="number">1</span>,l,r);</span><br><span class="line">				<span class="built_in">cout</span>&lt;&lt;ans&lt;&lt;<span class="string">&quot;\n&quot;</span>;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>位运算优化：<a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P3368">【模板】树状数组 2</a></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> lowbit(x) (x)&amp;-(x)</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> inf=<span class="number">1e6</span>+<span class="number">7</span>;</span><br><span class="line"><span class="keyword">int</span> n,c[inf];</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">int</span> <span class="title">sum</span><span class="params">(<span class="keyword">int</span> p)</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> ans=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">while</span>(p&gt;<span class="number">0</span>)&#123;</span><br><span class="line">		ans+=c[p];</span><br><span class="line">		p-=lowbit(p);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">insert</span><span class="params">(<span class="keyword">int</span> p,<span class="keyword">const</span> <span class="keyword">int</span> x)</span></span>&#123;</span><br><span class="line">	<span class="keyword">while</span>(p&lt;=n)&#123;</span><br><span class="line">		c[p]+=x;</span><br><span class="line">		p+=lowbit(p);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> m,opt,l,r,x,ox=<span class="number">0</span>;</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">&quot;%d%d&quot;</span>,&amp;n,&amp;m);</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">		<span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;x);</span><br><span class="line">		insert(i,x-ox);</span><br><span class="line"> 		ox=x;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=m;i++)&#123;</span><br><span class="line">		<span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;opt);</span><br><span class="line">		<span class="keyword">switch</span>(opt)&#123;</span><br><span class="line">			<span class="keyword">case</span> <span class="number">1</span> :&#123;</span><br><span class="line">				<span class="built_in">scanf</span>(<span class="string">&quot;%d%d%d&quot;</span>,&amp;l,&amp;r,&amp;x);</span><br><span class="line">				insert(l,x);</span><br><span class="line">				insert(r+<span class="number">1</span>,-x);</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">case</span> <span class="number">2</span> :&#123;</span><br><span class="line">				<span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;x);</span><br><span class="line">				<span class="built_in">cout</span>&lt;&lt;sum(x)&lt;&lt;<span class="string">&quot;\n&quot;</span>;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        
+                            <li title='0' data-url='http://music.163.com/song/media/outer/url?id=22766039.mp3'></li>
+                        
+                    
+                        
+                            <li title='1' data-url='http://music.163.com/song/media/outer/url?id=766038.mp3'></li>
+                        
+                    
+                        
+                            <li title='2' data-url='http://music.163.com/song/media/outer/url?id=26085472.mp3'></li>
+                        
+                    
+                        
+                            <li title='3' data-url='http://music.163.com/song/media/outer/url?id=494858498.mp3'></li>
+                        
+                    
+                        
+                            <li title='4' data-url='http://music.163.com/song/media/outer/url?id=35447831.mp3'></li>
+                        
+                    
+                        
+                            <li title='5' data-url='http://music.163.com/song/media/outer/url?id=443292559.mp3'></li>
+                        
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+		data-enable='false'
+        data-ae='false'
+        data-ci=''
+        data-cs=''
+        data-r=''
+        data-o=''
+        data-a=''
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+        <div class='side'>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E6%95%B0%E4%BC%98%E5%8C%96"><span class="toc-number">1.</span> <span class="toc-text">常数优化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1%E4%B9%A0%E6%83%AF%E4%BD%BF%E7%94%A8-const-%E2%80%A6"><span class="toc-number">1.2.</span> <span class="toc-text">#1习惯使用 const …</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E4%B8%8D%E8%A6%81%E9%80%92%E5%BD%92%EF%BC%81%EF%BC%81"><span class="toc-number">1.3.</span> <span class="toc-text">#2 不要递归！！</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3%E4%B9%A0%E6%83%AF%E4%BA%8E%E5%B0%86%E5%8F%98%E9%87%8F%E5%A3%B0%E6%98%8E%E5%9C%A8%E5%BE%AA%E7%8E%AF%E5%A4%96"><span class="toc-number">1.4.</span> <span class="toc-text">#3习惯于将变量声明在循环外</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E4%BD%BF%E7%94%A8-inline"><span class="toc-number">1.5.</span> <span class="toc-text">#4 使用 inline</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-register"><span class="toc-number">1.6.</span> <span class="toc-text">#5 register</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%86%E6%9C%89%E4%B8%A4%E7%82%B9%E7%82%B9%E8%A6%81%E6%B3%A8%E6%84%8F"><span class="toc-number">1.6.1.</span> <span class="toc-text">但有两点点要注意</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E6%AD%A3%E7%A1%AE%E4%BD%BF%E7%94%A8STL%E5%BA%93%E5%87%BD%E6%95%B0"><span class="toc-number">1.7.</span> <span class="toc-text">#6 正确使用STL库函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-%E8%AE%BF%E9%97%AE%E8%BF%9E%E7%BB%AD%E5%86%85%E5%AD%98%EF%BC%88%E9%93%BE%E8%A1%A8-NO%EF%BC%81%EF%BC%89"><span class="toc-number">1.8.</span> <span class="toc-text">#7 访问连续内存（链表 NO！）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-%E4%B8%89%E7%9B%AE%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-number">1.9.</span> <span class="toc-text">#8 三目运算符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-%E4%BD%BF%E7%94%A8%E6%8C%87%E9%92%88"><span class="toc-number">1.10.</span> <span class="toc-text">#9 使用指针</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-%E8%AF%BB%E5%85%A5%E4%BC%98%E5%8C%96-amp-%E8%BE%93%E5%87%BA%E4%BC%98%E5%8C%96"><span class="toc-number">1.11.</span> <span class="toc-text">#10 读入优化&amp;输出优化</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%EF%BC%9A"><span class="toc-number">1.11.1.</span> <span class="toc-text">代码：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11-%E4%BD%8D%E8%BF%90%E7%AE%97-amp-%E7%8A%B6%E6%80%81%E5%8E%8B%E7%BC%A9"><span class="toc-number">1.12.</span> <span class="toc-text">#11 位运算 &amp; 状态压缩</span></a></li></ol></li></ol>	
+        </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/typed.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"], linebreaks: { automatic:true }, EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) },
+        tex2jax: { inlineMath: [ ["$", "$"], ["\\(","\\)"] ], processEscapes: true, ignoreClass: "tex2jax_ignore|dno",skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']},
+        TeX: {  noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, Macros: { href: "{}" } },
+        messageStyle: "none"
+    });
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+
+</html>
