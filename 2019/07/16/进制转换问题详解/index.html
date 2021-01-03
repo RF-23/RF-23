@@ -11,8 +11,8 @@
     <meta name="google" content="notranslate" />
     <meta name="keywords" content="RedForest,"> 
     <meta name="description" content="欢迎来到我的博客，这里包括网站，算法，游戏，数字媒体，政治等内容，欢迎进来喝茶 ^_^,点击左上关闭音乐&amp;ensp;
-ATTAINTION: 由于HEXO目前对于MathJax的支持不甚完善，所以本篇数学公示渲染有误请前往我的LUOGU博客以获最佳体验
-关于进制转换的问题最详细解释&amp;e,"> 
+ATTAINTION: 由于HEXO目前对于MathJax的支持不甚完善，所以本篇数学公示渲染缺乏美观我的LUOGU博客以获最佳体验
+关于进制转换的问题最详细解释&amp;en,"> 
     <meta name="author" content="RedForest"> 
     <link rel="alternative" href="atom.xml" title="RedForest的博客小站" type="application/atom+xml"> 
     <link rel="icon" href="/img/favicon.png"> 
@@ -65,10 +65,11 @@ ATTAINTION: 由于HEXO目前对于MathJax的支持不甚完善，所以本篇数
         </div>
         <div class="content markdown">
             <p>点击左上关闭音乐&ensp;</p>
-<p>ATTAINTION: 由于HEXO目前对于MathJax的支持不甚完善，所以本篇数学公示渲染有误请前往<a target="_blank" rel="noopener" href="https://www.luogu.com.cn/blog/RF-YZZS/jin-zhi-zhuai-huan">我的LUOGU博客</a>以获最佳体验</p>
-<h2 id="关于进制转换的问题最详细解释"><a href="#关于进制转换的问题最详细解释" class="headerlink" title="关于进制转换的问题最详细解释"></a>关于进制转换的问题最详细解释</h2><p>&ensp;&ensp;&ensp;&ensp;<strong>很久前曾经系统学习过进制转换的问题，但发现…忘了？！好吧所以就再重新学习下然后写篇博客吧。<del>这次可不要再不求甚解了。</del></strong><br>&ensp;&ensp;&ensp;&ensp;那么就开始吧，先说下最基础的，如何把十进制数 <strong>a</strong> 转化为任意正 <strong>r</strong> 进制数。<br>&ensp;&ensp;&ensp;&ensp;在十进制下 $\forall$ n $\in$ Z，都可以将它表示为$A_1$<em>$10^{n-1}$+$A_2$</em>$10^{n-2}$+…+$A_n$<em>$10^{0}$,其中$A_i$ $\in$ Z $^</em>$,其中的$A_i$就是这个整数每一位的值。很显然的可以对它进行推广，$\forall$ r $\in$ R 都有以上结论成立。很显然我们要做的就是获得在 r 进制下的$A_i$的值。获得方法也很简单。那就是将这个整数对 r 不停地取模，然后将它除以 r 向下取整。稍微考虑下就可以发现它的原理(如果是特殊情况的话需要稍加更改，比如负进制)。<br>&ensp;&ensp;&ensp;&ensp;下面举个简单的例子，将十进制下的 6 转换为二进制。按照刚才的步骤，将其对 2 取模，发现是零，这里的意义其实就是， 6 在二进制下的最后一位是 0 ，因为它 % 2 为零，就说明它不需要 $2^0$ 这个数所以这一位为0，就是我们上面所讲$A_1$=0。的这是很显然的。然后让 6 / 2 得到 3 这就相当于对于 6 的二进制数忽略掉最后一位重复刚才的过程。因为100（base2）相当于10<em>2（base2）对吧。那么再让 $3%2$ ,得到 1 ，刚才讲到，这里的 1 默认是乘以二的所以就说明 6 需要 $2^{0+1}$ 就是$2^1$，那么1就是前面我们所讲到的$A_{2}$。我们一直重复刚才的过程就可以得到 6 的二进制表示：110；<br>&ensp;&ensp;&ensp;&ensp;即为1</em>$2^{2}$+1*$2^{1}$+0*$2^{0}$很简单吧^_^</p>
-<p>下面贴一段代码：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stack&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="built_in">stack</span> &lt;<span class="keyword">int</span>&gt; s;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> n,r;</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">&quot;%d%d&quot;</span>,&amp;n,&amp;r);   <span class="comment">//十进制数 n 再 r 进制下 </span></span><br><span class="line">	<span class="keyword">int</span> t;</span><br><span class="line">	<span class="keyword">while</span>(n)&#123;</span><br><span class="line">		t=n%r;</span><br><span class="line">		s.push(t);     <span class="comment">//因为我们是从后向前计算的,所以就用个栈存下</span></span><br><span class="line">		n/=r;              <span class="comment">//c++向零取整</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">while</span>(!s.empty())&#123;</span><br><span class="line">		<span class="built_in">cout</span>&lt;&lt;s.top();</span><br><span class="line">		s.pop();</span><br><span class="line">	&#125; </span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>ATTAINTION: 由于HEXO目前对于MathJax的支持不甚完善，所以本篇数学公示渲染缺乏美观<a target="_blank" rel="noopener" href="https://www.luogu.com.cn/blog/RF-YZZS/jin-zhi-zhuai-huan">我的LUOGU博客</a>以获最佳体验</p>
+<h1 id="关于进制转换的问题最详细解释"><a href="#关于进制转换的问题最详细解释" class="headerlink" title="关于进制转换的问题最详细解释"></a>关于进制转换的问题最详细解释</h1><p>&ensp;&ensp;&ensp;&ensp;<strong>很久前曾经系统学习过进制转换的问题，但发现…忘了？！好吧所以就再重新学习下然后写篇博客吧。<del>这次可不要再不求甚解了。</del></strong>    </p>
+<p>&ensp;&ensp;&ensp;&ensp;<br>那么就开始吧，先说下最基础的，如何把十进制数 <strong>a</strong> 转化为任意正 <strong>r</strong> 进制数。<br>&ensp;&ensp;&ensp;&ensp;在十进制下 $\forall$ n $\in$ Z ，都可以将它表示为<br>$A_1\times10^{n-1}+A_2\times10^{n-2}+…+A_n\times10^{0}$，其中 ${A}_{i}\in{Z}^{+}$ ，其中的 ${A}_{i}$ 就是这个整数每一位的值。很显然的可以对它进行推广，$\forall$ r $\in$ R 都有以上结论成立。很显然我们要做的就是获得在 r 进制下的$A_i$的值。获得方法也很简单。那就是将这个整数对 r 不停地取模，然后将它除以 r 向下取整。稍微考虑下就可以发现它的原理(如果是特殊情况的话需要稍加更改，比如负进制)。<br>&ensp;&ensp;&ensp;&ensp;下面举个简单的例子，将十进制下的 6 转换为二进制。按照刚才的步骤，将其对 2 取模，发现是零，这里的意义其实就是， 6 在二进制下的最后一位是 0 ，因为它 % 2 为零，就说明它不需要 $2^0$ 这个数所以这一位为0，就是我们上面所讲$A_1$=0。的这是很显然的。然后让 6 / 2 得到 3 这就相当于对于 6 的二进制数忽略掉最后一位重复刚才的过程。因为100（base2）相当于10*2（base2）对吧。那么再让 $3\%2$ ,得到 1 ，刚才讲到，这里的 1 默认是乘以二的所以就说明 6 需要 $2^{0+1}$ 就是$2^1$，那么1就是前面我们所讲到的$A_{2}$。我们一直重复刚才的过程就可以得到 6 的二进制表示：110；</p>
+<p>&ensp;&ensp;&ensp;&ensp;即为$1 \times 2^{2}+1 \times 2^{1}+0 \times 2^{0}$很简单吧^_^</p>
+<p>下面贴一段代码：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stack&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="built_in">stack</span> &lt;<span class="keyword">int</span>&gt; s;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> n,r;</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">&quot;%d%d&quot;</span>,&amp;n,&amp;r);   <span class="comment">//十进制数 n 再 r 进制下 </span></span><br><span class="line">	<span class="keyword">int</span> t;</span><br><span class="line">	<span class="keyword">while</span>(n)&#123;</span><br><span class="line">		t=n%r;</span><br><span class="line">		s.push(t);     <span class="comment">//因为我们是从后向前计算的,所以就用个栈存下</span></span><br><span class="line">		n/=r;              <span class="comment">//c++向零取整</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">while</span>(!s.empty())&#123;</span><br><span class="line">		<span class="built_in">cout</span>&lt;&lt;s.top();</span><br><span class="line">		s.pop();</span><br><span class="line">	&#125; </span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <h4 id="输入：6-2"><a href="#输入：6-2" class="headerlink" title="输入：6 2"></a>输入：6 2</h4><h4 id="输出：110"><a href="#输出：110" class="headerlink" title="输出：110"></a>输出：110</h4>
             <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
             <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
@@ -120,7 +121,7 @@ ATTAINTION: 由于HEXO目前对于MathJax的支持不甚完善，所以本篇数
     </div>
     
         <div class='side'>
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E%E8%BF%9B%E5%88%B6%E8%BD%AC%E6%8D%A2%E7%9A%84%E9%97%AE%E9%A2%98%E6%9C%80%E8%AF%A6%E7%BB%86%E8%A7%A3%E9%87%8A"><span class="toc-number">1.</span> <span class="toc-text">关于进制转换的问题最详细解释</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%EF%BC%9A6-2"><span class="toc-number">1.0.1.</span> <span class="toc-text">输入：6 2</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BE%93%E5%87%BA%EF%BC%9A110"><span class="toc-number">1.0.2.</span> <span class="toc-text">输出：110</span></a></li></ol></li></ol></li></ol>	
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E%E8%BF%9B%E5%88%B6%E8%BD%AC%E6%8D%A2%E7%9A%84%E9%97%AE%E9%A2%98%E6%9C%80%E8%AF%A6%E7%BB%86%E8%A7%A3%E9%87%8A"><span class="toc-number">1.</span> <span class="toc-text">关于进制转换的问题最详细解释</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%EF%BC%9A6-2"><span class="toc-number">1.0.0.1.</span> <span class="toc-text">输入：6 2</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BE%93%E5%87%BA%EF%BC%9A110"><span class="toc-number">1.0.0.2.</span> <span class="toc-text">输出：110</span></a></li></ol></li></ol></li></ol></li></ol>	
         </div>
     
 </div>
@@ -128,6 +129,22 @@ ATTAINTION: 由于HEXO目前对于MathJax的支持不甚完善，所以本篇数
 
     </div>
 </div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!--<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 </body>
 
 
